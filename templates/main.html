@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask Server</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #recordTextArea {
+            width: 80%;
+            height: 200px;
+            resize: none;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+        <textarea id="recordTextArea" style="width: 300px; height: 200px;"></textarea>
+        <br>
+        <button id="prevBtn">Prev</button>
+        <button id="dataBtn" style="color:green;">LOAD DATA</button>
+        <button id="nextBtn">Next</button>
+        <br>
+        <button id="callBtn">Call</button>
+        <button id="smsBtn">SMS</button>
+        <button id="waBtn">WA</button>
+        <button id="leadBtn">Lead</button>
+        
+    </div>
+
+    <script>
+        var currentRecord = null;
+
+        function updateRecordTextArea() {
+            debugger;
+            if (currentRecord !== null) {
+                $('#recordTextArea').val(JSON.stringify(currentRecord).replace(",", '\n'));
+            }
+        }
+
+        function getRecord() {
+            $.ajax({
+                url: '/get_record',
+                method: 'GET',
+                success: function(response) {
+                    currentRecord = response;
+                    updateRecordTextArea();
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        $(document).ready(function() {
+
+            getRecord();
+            $('#prevBtn').click(function() {
+                $.ajax({
+                    url: '/prev',
+                    method: 'POST',
+                    success: function(response) {
+                        currentRecord = response;
+                        updateRecordTextArea();
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('#dataBtn').click(function() {
+                alert("Data refresh !!");
+                $.ajax({
+                    url: '/data',
+                    method: 'POST',
+                    success: function(response) {
+                        currentRecord = response;
+                        updateRecordTextArea();
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('#callBtn').click(function() {
+                $.ajax({
+                    url: '/call',
+                    method: 'POST',
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('#smsBtn').click(function() {
+                $.ajax({
+                    url: '/sms',
+                    method: 'POST',
+                    success: function(response) {
+                        alert("SMS Sent");
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+
+            $('#waBtn').click(function() {
+                $.ajax({
+                    url: '/wa',
+                    method: 'POST',
+                    success: function(response) {
+                        alert("WA Sent");
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+
+            $('#leadBtn').click(function() {
+                $.ajax({
+                    url: '/lead',
+                    method: 'POST',
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('#nextBtn').click(function() {
+                $.ajax({
+                    url: '/next',
+                    method: 'POST',
+                    success: function(response) {
+                        currentRecord = response;
+                        updateRecordTextArea();
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
