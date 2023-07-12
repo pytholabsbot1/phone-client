@@ -9,11 +9,11 @@ main_server = "https://ascentbuildhome.com"
 wa_endpoint = "http://18.216.242.238:8000/warmup"
 
 
-def read_data():
+def read_data(tp):
     global data
     res = requests.post(
         f"{main_server}/fetch_leads",
-        data={"pass": "JMGHJSDGJHkjshakjha0989y87mnasVNVasdjkh"},
+        data={"pass": "JMGHJSDGJHkjshakjha0989y87mnasVNVasdjkh", "type": tp},
     )
     data = res.json()["data"]
 
@@ -49,7 +49,23 @@ def fetch_data():
     try:
         global current_record
 
-        read_data()
+        read_data("fresh")
+
+        current_record = 0
+        record = data[current_record]
+        print(record)
+        return jsonify(record)
+
+    except Exception as e:
+        print(e)
+
+
+@app.route("/followup", methods=["POST"])
+def fetch_data():
+    try:
+        global current_record
+
+        read_data("followup")
 
         current_record = 0
         record = data[current_record]

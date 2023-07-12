@@ -30,8 +30,10 @@
     <div style="text-align: center;">
         <textarea id="recordTextArea" style="width: 300px; height: 200px;"></textarea>
         <br>
+        <button id="dataBtn" style="color:green;">Refresh DATA</button>
+        <button id="followupBtn" style="color:red;">FollowUp DATA</button>
+        <br>
         <button id="prevBtn">Prev</button>
-        <button id="dataBtn" style="color:green;">LOAD DATA</button>
         <button id="nextBtn">Next</button>
         <br>
         <button id="callBtn">Call</button>
@@ -86,6 +88,22 @@
                 alert("Data refresh !!");
                 $.ajax({
                     url: '/data',
+                    method: 'POST',
+                    success: function(response) {
+                        currentRecord = response;
+                        updateRecordTextArea();
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+
+            $('#followupBtn').click(function() {
+                alert("Loading Scheduled Leads till 7 days !!");
+                $.ajax({
+                    url: '/followup',
                     method: 'POST',
                     success: function(response) {
                         currentRecord = response;
