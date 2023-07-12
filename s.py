@@ -61,7 +61,7 @@ def fetch_data():
 
 
 @app.route("/followup", methods=["POST"])
-def fetch_data():
+def f_data():
     try:
         global current_record
 
@@ -137,5 +137,5 @@ def send_wa():
 
 
 if __name__ == "__main__":
-    read_data()
+    read_data("fresh")
     app.run(host="0.0.0.0", port=5000, debug=True)

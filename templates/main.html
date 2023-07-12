@@ -49,7 +49,7 @@
         function updateRecordTextArea() {
             debugger;
             if (currentRecord !== null) {
-                $('#recordTextArea').val(JSON.stringify(currentRecord).replace(",", '\n'));
+                $('#recordTextArea').val(JSON.stringify(currentRecord).replace(/,/g, "\n"));
             }
         }
 
